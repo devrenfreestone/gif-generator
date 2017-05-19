@@ -6,9 +6,9 @@ console.log("hello");
 var buttons = $("#buttons");
 var gifs = $("#images");
 var addNew = $("#addNew");
-var whatElse = $("#whatElse");
-var whatElseVal = whatElse.val();
+var whatElse = document.getElementById('whatElse'), name=whatElse.value;
 var json = ""
+
 
 
 //Topics Array
@@ -27,32 +27,32 @@ for (var i = 0; i < 9; i++) {
 
 function gifButtons(){
 	for (var i = 9; i < topics.length; i++) {
-	buttons.append("<button>" + topics[i] + "</button>");
+	buttons.append("<button id='button'>" + topics[i] + "</button>");
 	buttons.attr("name",topics[i]);
 }};
 
 
 
 //Adds new button on "Add New Item" click
-$(addNew).click(function(){
+$(addNew).on("click",function(){
 	event.preventDefault();
-	topics.push(whatElseVal);
-	console.log(topics);
+	$(topics).push(whatElse);
+	console.log(this);
 	gifButtons();
 });
 
 //On Click to start Ajax Request
-$(buttons).click(function(event){
+$(buttons).on("click", 'button',function(event){
 
 //Holds the value of the button so it can be used in the Ajax call
 
 
 //Ajax Request
 	$.ajax({
-		url: queryUrl + buttons.attr(name) + API,
+		url: queryUrl + buttons.attr("name") + API,
 		method: "Get"}).done(function(response) {
 			json = response;
-			console.log(buttons.attr(name));
+			console.log(this);
 			addGif()
 		
 
