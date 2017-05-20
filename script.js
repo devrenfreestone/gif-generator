@@ -6,7 +6,7 @@ console.log("hello");
 var buttons = $("#buttons");
 var gifs = $("#images");
 var addNew = $("#addNew");
-var whatElse = document.getElementById('whatElse'), name=whatElse.value;
+var whatElse = $('input');
 var json = ""
 
 
@@ -20,24 +20,24 @@ var queryUrl = "http://api.giphy.com/v1/gifs/search?q="
 var API = "&limit=5&api_key=dc6zaTOxFJmzC"
 
 //Creates buttons from the Topics Array
-for (var i = 0; i < 9; i++) {
-	buttons.append("<button>" + topics[i] + "</button>");
-	buttons.attr("name",topics[i]);
-};
+gifButtons();
 
 function gifButtons(){
-	for (var i = 9; i < topics.length; i++) {
-	buttons.append("<button id='button'>" + topics[i] + "</button>");
-	buttons.attr("name",topics[i]);
+	for (var i = 0; i < topics.length; i++) {
+	buttons.append("<button name=" + topics[i] + ">" + topics[i] + "</button");
+
 }};
+
+
 
 
 
 //Adds new button on "Add New Item" click
 $(addNew).on("click",function(){
 	event.preventDefault();
-	$(topics).push(whatElse);
-	console.log(this);
+	topics.push(whatElse.val());
+	console.log(topics);
+	$(buttons).html("");
 	gifButtons();
 });
 
@@ -49,11 +49,11 @@ $(buttons).on("click", 'button',function(event){
 
 //Ajax Request
 	$.ajax({
-		url: queryUrl + buttons.attr("name") + API,
+		url: queryUrl + $(this).attr("name") + API,
 		method: "Get"}).done(function(response) {
 			json = response;
 			console.log(this);
-			addGif()
+			addGif();
 		
 
 
@@ -66,7 +66,7 @@ function addGif(){
 	for (var i = 0; i < json.data.length; i++) {	
 	gifs.prepend("<img src=" + json.data[i].images.downsized_medium.url + ">");
 	
-}}
+}};
 
 
 
